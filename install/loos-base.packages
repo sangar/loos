@@ -26,3 +26,10 @@ xdg-desktop-portal
 xdg-desktop-portal-hyprland
 hyprlauncher
 libqalculate
+sddm
+qt6-wayland
+seatd
+mesa
+libdisplay-info
+ttf-jetbrains-mono-nerd
+noto-fonts-emoji
