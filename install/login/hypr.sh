@@ -12,12 +12,17 @@ mkdir -p "$USER_HOME/.config/hypr"
 HYPRCONF="$USER_HOME/.config/hypr/hyprland.conf"
 if [ -f "$HYPRCONF" ]; then
   # Remove old entries if they exist with wrong paths
-  sudo sed -i '\|/usr/bin/xdg-desktop-portal|d' "$HYPRCONF"
-  sudo sed -i '\|/usr/bin/hyprpolkitagent|d' "$HYPRCONF"
+  sed -i '\|/usr/bin/xdg-desktop-portal|d' "$HYPRCONF"
+  sed -i '\|/usr/bin/hyprpolkitagent|d' "$HYPRCONF"
 
   # Add exec-once commands after waybar if not already present
-  if ! grep -q "/usr/lib/xdg-desktop-portal" "$HYPRCONF"; then
-    sudo sed -i 's/^exec-once = waybar &$/exec-once = waybar \&\nexec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\nexec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\nexec-once = \/usr\/lib\/xdg-desktop-portal -r\nexec-once = wl-clipboard history\nexec-once = \/usr\/lib\/hyprpolkitagent\/hyprpolkitagent/' "$HYPRCONF"
+  if ! grep -q "xdg-desktop-portal-wlr" "$HYPRCONF"; then
+    sed -i '/^exec-once = waybar &$/a\
+exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\
+exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\
+exec-once = /usr/lib/xdg-desktop-portal-wlr\
+exec-once = wl-clipboard history\
+exec-once = /usr/lib/hyprpolkitagent/hyprpolkitagent' "$HYPRCONF"
   fi
 
   chown "$USER:$USER" "$HYPRCONF"
@@ -27,5 +32,18 @@ fi
 
 # Enable user services (optional - primarily for session restoration)
 mkdir -p "$USER_HOME/.config/systemd/user"
-systemctl --user enable --now xdg-desktop-portal.service 2>/dev/null || true
-systemctl --user enable --now hyprpolkitagent.service 2>/dev/null || true
+systemctl --user enable xdg-desktop-portal.service 2>/dev/null || true
+systemctl --user enable hyprpolkitagent.service 2>/dev/null || true
+
+# Configure auto-start of Hyprland on TTY1 login
+BASH_PROFILE="$USER_HOME/.bash_profile"
+if ! grep -q "exec start-hyprland" "$BASH_PROFILE" 2>/dev/null; then
+  cat >>"$BASH_PROFILE" <<'EOF'
+
+# Auto-start Hyprland on TTY1 (if not already in graphical session)
+if [ -z "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+  exec start-hyprland
+fi
+EOF
+  chown "$USER:$USER" "$BASH_PROFILE"
+fi
