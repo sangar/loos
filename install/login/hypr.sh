@@ -8,10 +8,16 @@ USER_HOME=$(getent passwd "$USER" | cut -d: -f6)
 # Create Hyprland config directory if needed
 mkdir -p "$USER_HOME/.config/hypr"
 
-# Check if hyprland.conf exists
+# Check if hyprland.conf exists, copy default if not
 HYPRCONF="$USER_HOME/.config/hypr/hyprland.conf"
 if [ ! -f "$HYPRCONF" ]; then
-  echo "Warning: $HYPRCONF not found. Skipping exec-once configuration."
+  if [ -f "$LOOS_PATH/config/hypr/hyprland.conf" ]; then
+    cp "$LOOS_PATH/config/hypr/hyprland.conf" "$HYPRCONF"
+    chown "$USER:$USER" "$HYPRCONF"
+    echo "Created default hyprland.conf"
+  else
+    echo "Warning: $HYPRCONF not found and no default config available. Skipping exec-once configuration."
+  fi
 else
   # Remove old entries if they exist with wrong paths
   sudo sed -i '\|/usr/bin/xdg-desktop-portal|d' "$HYPRCONF"
