@@ -44,6 +44,9 @@ fi
 sudo pacman -Syu --noconfirm --needed --disable-sandbox-filesystem --disable-sandbox-syscalls git
 
 echo -e "\nCloning loOS from https://github.com/sangar/loos.git"
+if [ -d ~/.local/share/loos ]; then
+  echo "Removing existing loOS installation..."
+fi
 rm -fr ~/.local/share/loos/
 git clone "https://github.com/sangar/loos.git" ~/.local/share/loos >/dev/null
 
