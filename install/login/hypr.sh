@@ -1,6 +1,6 @@
 # Fix hyprpolkitagent service condition (it's too strict - prevents starting before WAYLAND_DISPLAY is set)
 if [ -f /usr/lib/systemd/user/hyprpolkitagent.service ]; then
-  sed -i 's/^ConditionEnvironment=WAYLAND_DISPLAY/#ConditionEnvironment=WAYLAND_DISPLAY/' /usr/lib/systemd/user/hyprpolkitagent.service
+  sudo sed -i 's/^ConditionEnvironment=WAYLAND_DISPLAY/#ConditionEnvironment=WAYLAND_DISPLAY/' /usr/lib/systemd/user/hyprpolkitagent.service
 fi
 
 USER_HOME=$(getent passwd "$USER" | cut -d: -f6)
