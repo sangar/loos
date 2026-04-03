@@ -18,7 +18,7 @@ if ! command -v sudo &>/dev/null || ! sudo true 2>/dev/null; then
   echo -e "\033[33mSudo not installed or not configured. Downloading bootstrap script...\033[0m" >&2
 
   # Download sudo.sh bootstrap script
-  BOOTSTRAP_URL="https://raw.githubusercontent.com/sangar/loos/main/install/sudo.sh"
+  BOOTSTRAP_URL="https://raw.githubusercontent.com/sangar/loos/master/install/sudo.sh"
   curl -fsSL "$BOOTSTRAP_URL" -o /tmp/loos-sudo.sh 2>/dev/null || {
     echo -e "\033[31mError: Could not download bootstrap script.\033[0m" >&2
     echo "" >&2
