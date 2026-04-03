@@ -17,7 +17,7 @@ if [ -f "$HYPRCONF" ]; then
 
   # Add exec-once commands after waybar if not already present
   if ! grep -q "/usr/lib/xdg-desktop-portal" "$HYPRCONF"; then
-    sudo sed -i 's/exec-once = waybar &/exec-once = waybar \&\nexec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\nexec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\nexec-once = \/usr\/lib\/xdg-desktop-portal -r\nexec-once = wl-clipboard history\nexec-once = \/usr\/lib\/hyprpolkitagent\/hyprpolkitagent/' "$HYPRCONF"
+    sudo sed -i 's/^exec-once = waybar &$/exec-once = waybar \&\nexec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\nexec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\nexec-once = \/usr\/lib\/xdg-desktop-portal -r\nexec-once = wl-clipboard history\nexec-once = \/usr\/lib\/hyprpolkitagent\/hyprpolkitagent/' "$HYPRCONF"
   fi
 
   chown "$USER:$USER" "$HYPRCONF"
