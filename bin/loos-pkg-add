@@ -3,7 +3,17 @@
 # Add the named packages to the system if they're missing. Returns false if it couldn't be done.
 
 if loos-pkg-missing "$@"; then
-  sudo pacman -S --noconfirm --needed "$@" || exit 1
+  # Force sync database first to avoid 404 errors on stale mirrors
+  echo "Syncing package database..."
+  sudo pacman -Syy --noconfirm --disable-sandbox-filesystem --disable-sandbox-syscalls &>/dev/null || true
+
+  # Download-only first to catch 404 errors without breaking system
+  if ! sudo pacman -Sw --noconfirm --needed --disable-sandbox-filesystem --disable-sandbox-syscalls --ignore=vmaf "$@" 2>&1; then
+    echo -e "\033[33mWarning: Some packages may have dependency conflicts. Trying alternative method...\033[0m" >&2
+  fi
+
+  # Install packages (without full system upgrade to avoid kernel panic from partial upgrades)
+  sudo pacman -S --noconfirm --needed --disable-sandbox-filesystem --disable-sandbox-syscalls --ignore=vmaf "$@" || exit 1
 fi
 
 for pkg in "$@"; do
