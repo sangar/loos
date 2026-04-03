@@ -14,7 +14,7 @@ cat <<'EOF'
 EOF
 
 # Ensure sudo is installed and configured
-if ! command -v sudo &>/dev/null || ! sudo -n true 2>/dev/null; then
+if ! command -v sudo &>/dev/null || ! sudo true 2>/dev/null; then
   echo -e "\033[33mSudo not installed or not configured. Downloading bootstrap script...\033[0m" >&2
 
   # Download sudo.sh bootstrap script
