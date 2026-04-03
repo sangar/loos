@@ -54,8 +54,6 @@ window#waybar.hidden {
     color: #cdd6f4;
     margin-left: 12px;
     margin-right: 6px;
-    max-width: 300px;
-    text-overflow: ellipsis;
 }
 
 #clock {
