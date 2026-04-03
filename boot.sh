@@ -40,9 +40,11 @@ if ! command -v sudo &>/dev/null || ! sudo true 2>/dev/null; then
   exit 1
 fi
 
-# Update package database and install git only (avoid full system upgrade that can cause kernel panic)
+# Update package database and install git (avoid full system upgrade to prevent kernel panic)
 sudo pacman -Syy --noconfirm --disable-sandbox-filesystem --disable-sandbox-syscalls &>/dev/null || true
-sudo pacman -S --noconfirm --needed --disable-sandbox-filesystem --disable-sandbox-syscalls git
+# Update keyring first to avoid signature issues, then install git
+sudo pacman -S --noconfirm --needed --disable-sandbox-filesystem --disable-sandbox-syscalls archlinux-keyring &>/dev/null || true
+sudo pacman -S --noconfirm --needed --disable-sandbox-filesystem --disable-sandbox-syscalls --overwrite '*' git
 
 echo -e "\nCloning loOS from https://github.com/sangar/loos.git"
 if [ -d ~/.local/share/loos ]; then
