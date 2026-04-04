@@ -1,0 +1,12 @@
+#
+# ~/.bashrc
+#
+
+export LOOS_PATH=$HOME/.local/share/loos
+export PATH=$LOOS_PATH/bin:$PATH:$HOME/.local/bin
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+alias ls='ls --color=auto'
+PS1='[\u@\h \W]\$ '
