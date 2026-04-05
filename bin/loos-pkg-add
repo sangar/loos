@@ -4,18 +4,18 @@
 
 # Update mirrorlist to use a reliable mirror first
 echo "Ensuring mirrors are up to date..."
-sudo pacman -Syy --noconfirm --disable-sandbox-filesystem --disable-sandbox-syscalls &>/dev/null || true
+sudo pacman -Syy --noconfirm &>/dev/null || true
 
 # Try to install requested packages
 if loos-pkg-missing "$@"; then
   echo "Installing packages: $@"
   # Use --overwrite to handle version mismatches from stale mirrors
-  if ! sudo pacman -S --noconfirm --needed --disable-sandbox-filesystem --disable-sandbox-syscalls --overwrite '*' "$@" 2>&1; then
+  if ! sudo pacman -S --noconfirm --needed --overwrite '*' "$@" 2>&1; then
     echo -e "\033[33mPackage install failed. Updating system and retrying...\033[0m" >&2
     # If install fails, try updating keyring first then system
-    sudo pacman -S --noconfirm --disable-sandbox-filesystem --disable-sandbox-syscalls archlinux-keyring &>/dev/null || true
+    sudo pacman -S --noconfirm archlinux-keyring &>/dev/null || true
     # Attempt install again
-    sudo pacman -S --noconfirm --needed --disable-sandbox-filesystem --disable-sandbox-syscalls --overwrite '*' "$@" || exit 1
+    sudo pacman -S --noconfirm --needed --overwrite '*' "$@" || exit 1
   fi
 fi
 
