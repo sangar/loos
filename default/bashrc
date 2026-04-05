@@ -2,6 +2,8 @@
 # ~/.bashrc
 #
 
+source ~/.local/share/loos/default/bash/rc
+
 export LOOS_PATH=$HOME/.local/share/loos
 export PATH=$LOOS_PATH/bin:$PATH:$HOME/.local/bin
 
