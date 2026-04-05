@@ -19,6 +19,7 @@ brightnessctl
 playerctl
 nvim
 network-manager-applet
+mise
 polkit
 hyprpolkitagent
 pipewire
