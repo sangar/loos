@@ -1,0 +1,37 @@
+#!/bin/bash
+# Detect vconsole keyboard layout and update Hyprland config to match
+
+HYPRCONF="${HOME}/.config/hypr/hyprland.conf"
+
+# Get keyboard layout from vconsole
+VCONSOLE_LAYOUT=$(localectl status 2>/dev/null | grep "VC Keymap" | awk '{print $3}')
+
+# If localectl doesn't work, try reading vconsole.conf directly
+if [[ -z "$VCONSOLE_LAYOUT" ]] && [[ -f /etc/vconsole.conf ]]; then
+  VCONSOLE_LAYOUT=$(grep "^KEYMAP=" /etc/vconsole.conf 2>/dev/null | cut -d= -f2 | tr -d '"' | cut -d'-' -f1)
+fi
+
+# Fallback to US if we can't detect
+if [[ -z "$VCONSOLE_LAYOUT" ]]; then
+  echo "Warning: Could not detect keyboard layout from vconsole. Checking current locale..." >&2
+  VCONSOLE_LAYOUT=$(echo "$LANG" | cut -d_ -f2 | cut -d. -f1 | tr '[:upper:]' '[:lower:]')
+  if [[ -z "$VCONSOLE_LAYOUT" ]] || [[ "$VCONSOLE_LAYOUT" == "utf" ]]; then
+    VCONSOLE_LAYOUT="us"
+  fi
+fi
+
+echo "Detected keyboard layout: $VCONSOLE_LAYOUT"
+
+# Update hyprland.conf if it exists
+if [[ -f "$HYPRCONF" ]]; then
+  # Backup original
+  cp "$HYPRCONF" "${HYPRCONF}.backup.$(date +%Y%m%d%H%M%S)" 2>/dev/null || true
+
+  # Update the kb_layout line
+  sed -i "s/^[[:space:]]*kb_layout[[:space:]]*=.*/    kb_layout = ${VCONSOLE_LAYOUT}/" "$HYPRCONF"
+
+  echo "Updated ${HYPRCONF} with keyboard layout: ${VCONSOLE_LAYOUT}"
+else
+  echo "Error: ${HYPRCONF} not found" >&2
+  exit 1
+fi
