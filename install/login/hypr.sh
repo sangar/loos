@@ -49,7 +49,7 @@ systemctl --user enable hyprpolkitagent.service 2>/dev/null || true
 # Configure auto-start of Hyprland on TTY1 login (fallback when not using display manager)
 # Note: When using SDDM, this is not needed but kept as fallback
 BASH_PROFILE="$USER_HOME/.bash_profile"
-if ! grep -q "exec start-hyprland" "$BASH_PROFILE" 2>/dev/null; then
+if ! grep -q "exec Hyprland" "$BASH_PROFILE" 2>/dev/null; then
   cat >>"$BASH_PROFILE" <<'EOF'
 
 # Auto-start Hyprland on TTY1 (if not already in graphical session)
@@ -59,7 +59,7 @@ if [ -z "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ];
   if ! systemctl is-active --quiet seatd; then
     sudo systemctl start seatd
   fi
-  exec start-hyprland
+  exec Hyprland
 fi
 EOF
   chown "$USER:$USER" "$BASH_PROFILE"
