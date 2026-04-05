@@ -13,6 +13,12 @@ cat <<'EOF'
 
 EOF
 
+# Keep sudo alive throughout the installation
+sudo -v
+while true; do sudo -n true; sleep 60; done &
+SUDO_KEEPALIVE_PID=$!
+trap "kill $SUDO_KEEPALIVE_PID 2>/dev/null || true" EXIT
+
 # Update package database and install git (avoid full system upgrade to prevent kernel panic)
 sudo pacman -Syy --noconfirm &>/dev/null || true
 # Update keyring first to avoid signature issues, then install git

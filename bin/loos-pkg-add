@@ -2,6 +2,9 @@
 
 # Add the named packages to the system if they're missing. Returns false if it couldn't be done.
 
+# Refresh sudo credentials before package operations
+sudo -v 2>/dev/null || true
+
 # Update mirrorlist to use a reliable mirror first
 echo "Ensuring mirrors are up to date..."
 sudo pacman -Syy --noconfirm &>/dev/null || true
