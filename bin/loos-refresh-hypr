@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Refresh Hyprland configuration from loOS defaults
+# Updates system configs while preserving user customizations
+
+USER_HOME=$(getent passwd "$USER" | cut -d: -f6)
+LOOS_DEFAULT="$LOOS_PATH/default/hypr"
+USER_CONFIG="$USER_HOME/.local/share/loos/default/hypr"
+HYPR_USER_CONFIG="$USER_HOME/.config/hypr"
+
+# Ensure directories exist
+mkdir -p "$USER_CONFIG"
+mkdir -p "$HYPR_USER_CONFIG"
+
+# Copy/update system defaults
+if [ -d "$LOOS_DEFAULT" ]; then
+  cp -f "$LOOS_DEFAULT"/*.conf "$USER_CONFIG/"
+  chown -R "$USER:$USER" "$USER_CONFIG"
+  echo "Refreshed loOS Hyprland defaults"
+else
+  echo "Error: loOS default configs not found at $LOOS_DEFAULT" >&2
+  exit 1
+fi
+
+# Create user configs if they don't exist (templates)
+for user_config in user-monitors.conf user-input.conf user-looknfeel.conf user-bindings.conf user-autostart.conf; do
+  if [ ! -f "$HYPR_USER_CONFIG/$user_config" ]; then
+    # Check if we have a template in loOS
+    if [ -f "$LOOS_PATH/config/hypr/$user_config" ]; then
+      cp "$LOOS_PATH/config/hypr/$user_config" "$HYPR_USER_CONFIG/$user_config"
+      chown "$USER:$USER" "$HYPR_USER_CONFIG/$user_config"
+      echo "Created user config: $user_config"
+    fi
+  fi
+done
+
+# Ensure main hyprland.conf exists
+if [ ! -f "$HYPR_USER_CONFIG/hyprland.conf" ]; then
+  if [ -f "$LOOS_PATH/config/hypr/hyprland.conf" ]; then
+    cp "$LOOS_PATH/config/hypr/hyprland.conf" "$HYPR_USER_CONFIG/hyprland.conf"
+    chown "$USER:$USER" "$HYPR_USER_CONFIG/hyprland.conf"
+    echo "Created hyprland.conf"
+  fi
+fi
+
+echo "Hyprland configuration refreshed successfully"
+echo "System configs updated in: $USER_CONFIG"
+echo "Your custom configs in: $HYPR_USER_CONFIG"
