@@ -24,7 +24,7 @@ nvim
 pipewire
 playerctl
 polkit
-qt6-wayland
+qt5-wayland
 seatd
 slurp
 sddm
