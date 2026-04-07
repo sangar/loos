@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Refresh the SDDM theme from default
+
+sudo rm -rf /usr/share/sddm/themes/simple
+sudo cp -r $LOOS_PATH/default/sddm/simple /usr/share/sddm/themes/simple

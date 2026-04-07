@@ -1,0 +1,6 @@
+[SddmGreeterTheme]
+Name=LoOS
+Description=Minimal terminal-style login theme matching the Limine bootloader aesthetic
+Author=LoOS
+Type=sddm-theme
+Version=1.0
