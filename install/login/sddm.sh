@@ -1,4 +1,4 @@
-# Install omarchy SDDM theme
+# Install SDDM theme
 loos-refresh-sddm
 
 # Setup SDDM login service
