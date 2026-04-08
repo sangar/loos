@@ -1,0 +1,127 @@
+* {
+  all: unset;
+}
+
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+scrollbar {
+  opacity: 0;
+}
+
+.normal-icons {
+  -gtk-icon-size: 16px;
+}
+
+.large-icons {
+  -gtk-icon-size: 32px;
+}
+
+.box-wrapper {
+  background: rgba(30, 30, 46, 0.95);
+  padding: 20px;
+  border: 2px solid #7aa2f7;
+  border-radius: 12px;
+}
+
+.preview-box {
+}
+
+.box {
+}
+
+.search-container {
+  background: #1e1e2e;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.input placeholder {
+  opacity: 0.5;
+  color: #565f89;
+}
+
+.input {
+  color: #c0caf5;
+}
+
+.input:focus,
+.input:active {
+  box-shadow: none;
+  outline: none;
+}
+
+.content-container {
+}
+
+.placeholder {
+  color: #565f89;
+}
+
+.scroll {
+}
+
+.list {
+}
+
+child,
+child > * {
+}
+
+child:hover .item-box {
+  background: rgba(122, 162, 247, 0.15);
+  border-radius: 6px;
+}
+
+child:selected .item-box {
+  background: #7aa2f7;
+  border-radius: 6px;
+}
+
+child:selected .item-box * {
+  color: #1e1e2e;
+}
+
+.item-box {
+  padding: 8px 14px;
+}
+
+.item-text-box {
+  all: unset;
+  padding: 8px 0;
+}
+
+.item-text {
+  color: #c0caf5;
+}
+
+.item-subtext {
+  font-size: 0px;
+  min-height: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.item-image {
+  margin-right: 12px;
+  -gtk-icon-transform: scale(0.9);
+}
+
+.current {
+  font-style: italic;
+}
+
+.keybind-hints {
+  background: #1e1e2e;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  color: #565f89;
+}
+
+.preview {
+}

@@ -18,7 +18,7 @@ fi
 # Create launcher script
 cat >"$WAYBAR_DIR/launcher.sh" <<'EOF'
 #!/bin/bash
-wofi --show=dmenu --width=400 --height=300
+walker -n -p dmenu
 EOF
 
 chmod +x "$WAYBAR_DIR/launcher.sh"
