@@ -34,7 +34,7 @@ uwsm
 waybar
 wireplumber
 wl-clipboard
-walker
-  libqalculate
+libqalculate
+  rust  # Required for building walker from source
 xdg-desktop-portal
 xdg-desktop-portal-hyprland

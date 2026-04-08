@@ -157,6 +157,14 @@ source "$LOOS_INSTALL/config/git.sh"
 4. **Temp files**: Always use `mktemp -d` and cleanup
 5. **Sed patterns**: Use `|` as delimiter for paths to avoid escaping `/`
 
+## AUR / Source Builds
+
+Some packages (like `walker`) are not in official Arch repositories and must be:
+- Built from source (see `install/config/walker.sh`)
+- Installed via AUR helper (optional `install/config/aur-helper.sh`)
+
+Source builds are preferred for ARM compatibility.
+
 ## Testing Notes
 
 - No automated test suite currently exists
