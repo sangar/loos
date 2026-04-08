@@ -28,37 +28,15 @@ build_elephant() {
 
   cd elephant
 
-  # Check if cargo is available, install rust if needed
-  if ! command -v cargo &>/dev/null; then
-    # Prefer mise if available (already installed by loos), fall back to rustup
-    if command -v mise &>/dev/null; then
-      echo "Rust/Cargo not found. Installing rust via mise..."
-      eval "$(mise activate bash)"
-      mise use -g rust@latest
-    else
-      echo "Rust/Cargo not found. Installing rustup (rust toolchain)..."
-      if ! loos-pkg-add rustup; then
-        echo "Error: Failed to install Rust. Please install manually: pacman -S rustup" >&2
-        return 1
-      fi
-      # After installing rustup, set up default toolchain
-      rustup default stable
-    fi
-    # After installing rust, reload the shell environment
-    if [[ -f "$USER_HOME/.cargo/env" ]]; then
-      source "$USER_HOME/.cargo/env"
-    fi
-    # Also activate mise shims if using mise
-    if command -v mise &>/dev/null; then
-      eval "$(mise activate bash)"
-    fi
-    # Verify cargo is now available
-    if ! command -v cargo &>/dev/null; then
-      echo "Error: Cargo still not available after installing rust. PATH may need refresh." >&2
-      echo "Try running: source ~/.cargo/env" >&2
+  # Install go if not available
+  if ! command -v go &>/dev/null; then
+    echo "Go not found. Installing go..."
+    loos-pkg-add go
+    if ! command -v go &>/dev/null; then
+      echo "Error: Failed to install Go" >&2
       return 1
     fi
-    echo "Rust installed successfully!"
+    echo "Go installed successfully!"
   fi
 
   # Install elephant build dependencies
@@ -66,17 +44,18 @@ build_elephant() {
   loos-pkg-add gtk4 gtk4-layer-shell pkgconf gcc
 
   echo "Building elephant..."
-  if ! cargo build --release 2>&1; then
+  cd cmd/elephant
+  if ! go build -o elephant elephant.go 2>&1; then
     echo "Error: Failed to build elephant" >&2
     echo "Build directory preserved at: $BUILD_DIR" >&2
-    echo "You can debug manually with: cd $BUILD_DIR && cargo build --release" >&2
+    echo "You can debug manually with: cd $BUILD_DIR && go build ./cmd/elephant" >&2
     # Don't remove build dir on failure - remove trap
     trap - EXIT
     return 1
   fi
 
   mkdir -p "$USER_HOME/.local/bin"
-  cp "target/release/elephant" "$USER_HOME/.local/bin/elephant"
+  cp "elephant" "$USER_HOME/.local/bin/elephant"
   chmod +x "$USER_HOME/.local/bin/elephant"
 
   echo "Elephant built successfully!"

@@ -18,6 +18,7 @@ libqalculate
 lxappearance
 mesa
 mise
+go  # Required for building elephant from source
 network-manager-applet
 noto-fonts-emoji
 nvim
