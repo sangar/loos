@@ -28,14 +28,45 @@ build_elephant() {
 
   cd elephant
 
+  # Check if cargo is available, install rust if needed
   if ! command -v cargo &>/dev/null; then
-    echo "Error: Rust/Cargo not found" >&2
-    return 1
+    # Prefer mise if available (already installed by loos), fall back to rustup
+    if command -v mise &>/dev/null; then
+      echo "Rust/Cargo not found. Installing rust via mise..."
+      mise use -g rust@latest
+    else
+      echo "Rust/Cargo not found. Installing rustup (rust toolchain)..."
+      if ! loos-pkg-add rustup; then
+        echo "Error: Failed to install Rust. Please install manually: pacman -S rustup" >&2
+        return 1
+      fi
+      # After installing rustup, set up default toolchain
+      rustup default stable
+    fi
+    # After installing rust, reload the shell environment
+    if [[ -f "$USER_HOME/.cargo/env" ]]; then
+      source "$USER_HOME/.cargo/env"
+    fi
+    # Verify cargo is now available
+    if ! command -v cargo &>/dev/null; then
+      echo "Error: Cargo still not available after installing rust. PATH may need refresh." >&2
+      echo "Try running: source ~/.cargo/env" >&2
+      return 1
+    fi
+    echo "Rust installed successfully!"
   fi
 
+  # Install elephant build dependencies
+  echo "Installing elephant build dependencies..."
+  loos-pkg-add gtk4 gtk4-layer-shell pkgconf gcc
+
   echo "Building elephant..."
-  if ! cargo build --release; then
+  if ! cargo build --release 2>&1; then
     echo "Error: Failed to build elephant" >&2
+    echo "Build directory preserved at: $BUILD_DIR" >&2
+    echo "You can debug manually with: cd $BUILD_DIR && cargo build --release" >&2
+    # Don't remove build dir on failure - remove trap
+    trap - EXIT
     return 1
   fi
 
@@ -77,10 +108,32 @@ build_walker() {
 
   cd walker
 
-  # Check if cargo is available
+  # Check if cargo is available, install rust if needed
   if ! command -v cargo &>/dev/null; then
-    echo "Error: Rust/Cargo not found. Installing rust..." >&2
-    loos-pkg-add rust
+    # Prefer mise if available (already installed by loos), fall back to rustup
+    if command -v mise &>/dev/null; then
+      echo "Rust/Cargo not found. Installing rust via mise..."
+      mise use -g rust@latest
+    else
+      echo "Rust/Cargo not found. Installing rustup (rust toolchain)..."
+      if ! loos-pkg-add rustup; then
+        echo "Error: Failed to install Rust. Please install manually: pacman -S rustup" >&2
+        return 1
+      fi
+      # After installing rustup, set up default toolchain
+      rustup default stable
+    fi
+    # After installing rust, reload the shell environment
+    if [[ -f "$USER_HOME/.cargo/env" ]]; then
+      source "$USER_HOME/.cargo/env"
+    fi
+    # Verify cargo is now available
+    if ! command -v cargo &>/dev/null; then
+      echo "Error: Cargo still not available after installing rust. PATH may need refresh." >&2
+      echo "Try running: source ~/.cargo/env" >&2
+      return 1
+    fi
+    echo "Rust installed successfully!"
   fi
 
   # Install build dependencies
@@ -89,8 +142,12 @@ build_walker() {
 
   # Build walker
   echo "Building walker (this may take a few minutes)..."
-  if ! cargo build --release; then
+  if ! cargo build --release 2>&1; then
     echo "Error: Failed to build walker" >&2
+    echo "Build directory preserved at: $BUILD_DIR" >&2
+    echo "You can debug manually with: cd $BUILD_DIR && cargo build --release" >&2
+    # Don't remove build dir on failure - remove trap
+    trap - EXIT
     return 1
   fi
 
