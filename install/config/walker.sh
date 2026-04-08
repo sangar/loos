@@ -33,6 +33,7 @@ build_elephant() {
     # Prefer mise if available (already installed by loos), fall back to rustup
     if command -v mise &>/dev/null; then
       echo "Rust/Cargo not found. Installing rust via mise..."
+      eval "$(mise activate bash)"
       mise use -g rust@latest
     else
       echo "Rust/Cargo not found. Installing rustup (rust toolchain)..."
@@ -46,6 +47,10 @@ build_elephant() {
     # After installing rust, reload the shell environment
     if [[ -f "$USER_HOME/.cargo/env" ]]; then
       source "$USER_HOME/.cargo/env"
+    fi
+    # Also activate mise shims if using mise
+    if command -v mise &>/dev/null; then
+      eval "$(mise activate bash)"
     fi
     # Verify cargo is now available
     if ! command -v cargo &>/dev/null; then
@@ -113,6 +118,7 @@ build_walker() {
     # Prefer mise if available (already installed by loos), fall back to rustup
     if command -v mise &>/dev/null; then
       echo "Rust/Cargo not found. Installing rust via mise..."
+      eval "$(mise activate bash)"
       mise use -g rust@latest
     else
       echo "Rust/Cargo not found. Installing rustup (rust toolchain)..."
@@ -126,6 +132,10 @@ build_walker() {
     # After installing rust, reload the shell environment
     if [[ -f "$USER_HOME/.cargo/env" ]]; then
       source "$USER_HOME/.cargo/env"
+    fi
+    # Also activate mise shims if using mise
+    if command -v mise &>/dev/null; then
+      eval "$(mise activate bash)"
     fi
     # Verify cargo is now available
     if ! command -v cargo &>/dev/null; then

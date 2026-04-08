@@ -35,6 +35,5 @@ waybar
 wireplumber
 wl-clipboard
 libqalculate
-  rust  # Required for building walker from source
 xdg-desktop-portal
 xdg-desktop-portal-hyprland
