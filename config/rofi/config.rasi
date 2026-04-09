@@ -1,0 +1,18 @@
+// Rofi configuration for loOS
+// Simple catppuccin-mocha inspired theme
+
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    icon-theme: "Adwaita";
+    terminal: "kitty";
+    drun-display-format: "{name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: " Apps ";
+    display-run: " Run ";
+    display-window: " Window ";
+}
+
+@theme "theme.rasi"

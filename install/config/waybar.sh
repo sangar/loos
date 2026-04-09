@@ -15,11 +15,11 @@ if ! python3 -c "import json; json.load(open('$WAYBAR_DIR/config'))" 2>/dev/null
   echo "Warning: waybar config is not valid JSON"
 fi
 
-# Create launcher script (using wofi - install separately if needed)
+# Create launcher script using rofi
 cat >"$WAYBAR_DIR/launcher.sh" <<'EOF'
 #!/bin/bash
-# Default launcher - replace with your preferred launcher (wofi, fuzzel, etc.)
-# wofi --show drun
+# Rofi application launcher
+rofi -show drun
 EOF
 
 chmod +x "$WAYBAR_DIR/launcher.sh"

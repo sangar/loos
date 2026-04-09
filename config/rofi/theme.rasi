@@ -1,0 +1,99 @@
+* {
+    bg: #1e1e2e;
+    bg-alt: #313244;
+    fg: #cdd6f4;
+    fg-alt: #a6adc8;
+
+    border-color: #7aa2f7;
+    separator-color: transparent;
+
+    background-color: @bg;
+    text-color: @fg;
+}
+
+window {
+    background-color: @bg;
+    border: 2px;
+    border-color: @border-color;
+    border-radius: 12px;
+    padding: 20px;
+    width: 600px;
+    height: 400px;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [inputbar, listview];
+    spacing: 15px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius: 8px;
+    padding: 12px;
+    children: [prompt, entry];
+    spacing: 10px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @border-color;
+    font: "JetBrainsMono Nerd Font 16";
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg;
+    placeholder: "Search...";
+    placeholder-color: @fg-alt;
+    font: "JetBrainsMono Nerd Font 16";
+}
+
+listview {
+    background-color: transparent;
+    columns: 1;
+    lines: 8;
+    spacing: 8px;
+    fixed-height: false;
+    dynamic: true;
+}
+
+element {
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 8px 12px;
+    spacing: 10px;
+}
+
+element-icon {
+    background-color: transparent;
+    size: 24px;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: @fg;
+    font: "JetBrainsMono Nerd Font 14";
+}
+
+element selected {
+    background-color: @border-color;
+}
+
+element selected.normal {
+    background-color: @border-color;
+    text-color: @bg;
+}
+
+element selected.active {
+    background-color: @border-color;
+    text-color: @bg;
+}
+
+element-text selected {
+    text-color: @bg;
+}
+
+element-icon selected {
+    background-color: @border-color;
+}
