@@ -1,6 +1,6 @@
 #!/bin/bash
-# Install AUR helper (yay or paru) for installing AUR packages like walker
-# This is optional - walker can also be built from source
+# Install AUR helper (yay or paru) for installing AUR packages
+# This is optional but useful for packages not in official repos
 
 set -u
 
@@ -31,7 +31,6 @@ loos-pkg-add git base-devel
 git clone https://aur.archlinux.org/yay.git
 cd yay
 
-# Build without installing (we'll use it to install walker)
 makepkg -si --noconfirm
 
 # Cleanup

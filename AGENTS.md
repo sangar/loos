@@ -159,9 +159,9 @@ source "$LOOS_INSTALL/config/git.sh"
 
 ## AUR / Source Builds
 
-Some packages (like `walker`) are not in official Arch repositories and must be:
-- Built from source (see `install/config/walker.sh`)
+Some packages are not in official Arch repositories and must be:
 - Installed via AUR helper (optional `install/config/aur-helper.sh`)
+- Built from source when AUR is unavailable
 
 Source builds are preferred for ARM compatibility.
 
