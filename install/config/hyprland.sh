@@ -1,5 +1,6 @@
 # Hyprland configuration setup
 # Adds portal/polkit/clipboard to autostart and configures Pi 5 environment
+# Also syncs keyboard layout from system to Hyprland
 
 USER_HOME=$(getent passwd "$USER" | cut -d: -f6)
 LOOS_DEFAULT="$USER_HOME/.local/share/loos/default/hypr"
@@ -42,3 +43,9 @@ fi
 mkdir -p "$USER_HOME/.config/systemd/user"
 systemctl --user enable xdg-desktop-portal.service 2>/dev/null || true
 systemctl --user enable hyprpolkitagent.service 2>/dev/null || true
+
+# Sync keyboard layout from system to Hyprland
+if command -v loos-keyboard-sync &>/dev/null; then
+  echo "Syncing keyboard layout from system to Hyprland..."
+  loos-keyboard-sync
+fi

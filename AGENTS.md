@@ -156,6 +156,7 @@ source "$LOOS_INSTALL/config/git.sh"
 3. **Permissions**: Use `sudo` for system changes, `chown` for user files
 4. **Temp files**: Always use `mktemp -d` and cleanup
 5. **Sed patterns**: Use `|` as delimiter for paths to avoid escaping `/`
+6. **Terminal**: `foot` is the default lightweight Wayland-native terminal (replaces alacritty for ARM/simple machines)
 
 ## AUR / Source Builds
 
