@@ -12,3 +12,8 @@ export PATH=$LOOS_PATH/bin:$PATH:$HOME/.local/bin
 
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
+
+# Show system info on login (if fastfetch is installed)
+if command -v fastfetch &>/dev/null; then
+    fastfetch
+fi

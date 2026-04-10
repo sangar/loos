@@ -146,6 +146,8 @@ source "$LOOS_INSTALL/config/git.sh"
 # Individual modules do one thing well
 # - git.sh: Configure git user
 # - waybar.sh: Setup waybar configuration
+# - btop.sh: Setup btop system monitor with catppuccin theme
+# - fastfetch.sh: Setup fastfetch with custom loOS config
 # - lcsnd.sh: Install LocalSend
 ```
 
@@ -157,6 +159,8 @@ source "$LOOS_INSTALL/config/git.sh"
 4. **Temp files**: Always use `mktemp -d` and cleanup
 5. **Sed patterns**: Use `|` as delimiter for paths to avoid escaping `/`
 6. **Terminal**: `foot` is the default lightweight Wayland-native terminal (replaces alacritty for ARM/simple machines)
+7. **System Monitor**: `btop` with catppuccin-mocha theme
+8. **System Info**: `fastfetch` with custom loOS config
 
 ## AUR / Source Builds
 

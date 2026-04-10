@@ -1,0 +1,37 @@
+// btop theme file
+// Catppuccin Mocha - matches loos terminal theme
+
+theme[main_bg] = "#1e1e2e"
+theme[main_fg] = "#cdd6f4"
+theme[title] = "#cba6f7"
+theme[hi_fg] = "#f38ba8"
+theme[selected_bg] = "#45475a"
+theme[selected_fg] = "#cdd6f4"
+theme[inactive_fg] = "#6c7086"
+theme[proc_misc] = "#a6e3a1"
+
+theme[cpu_box] = "#7aa2f7"
+theme[mem_box] = "#cba6f7"
+theme[net_box] = "#f9e2af"
+theme[proc_box] = "#89b4fa"
+theme[div_line] = "#313244"
+
+theme[cpu_start] = "#7aa2f7"
+theme[cpu_mid] = "#89dceb"
+theme[cpu_end] = "#f5c2e7"
+
+theme[mem_start] = "#cba6f7"
+theme[mem_mid] = "#f5c2e7"
+theme[mem_end] = "#f38ba8"
+
+theme[net_start] = "#f9e2af"
+theme[net_mid] = "#fab387"
+theme[net_end] = "#f38ba8"
+
+theme[proc_start] = "#a6e3a1"
+theme[proc_mid] = "#89b4fa"
+theme[proc_end] = "#f5c2e7"
+
+theme[temp_start] = "#7aa2f7"
+theme[temp_mid] = "#f9e2af"
+theme[temp_end] = "#f38ba8"
