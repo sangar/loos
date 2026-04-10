@@ -9,6 +9,18 @@ sudo -v 2>/dev/null || true
 echo "Ensuring mirrors are up to date..."
 sudo pacman -Syy --noconfirm &>/dev/null || true
 
+# Check for cached packages
+CACHED_COUNT=0
+for pkg in "$@"; do
+  if ls /var/cache/pacman/pkg/${pkg}-* 1>/dev/null 2>&1; then
+    ((CACHED_COUNT++))
+  fi
+done
+
+if [[ $CACHED_COUNT -gt 0 ]] && [[ $CACHED_COUNT -eq $# ]]; then
+  echo "All packages found in cache (/var/cache/pacman/pkg/)"
+fi
+
 # Try to install requested packages
 if loos-pkg-missing "$@"; then
   echo "Installing packages: $@"

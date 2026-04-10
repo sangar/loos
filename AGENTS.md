@@ -162,6 +162,39 @@ source "$LOOS_INSTALL/config/git.sh"
 7. **System Monitor**: `btop` with catppuccin-mocha theme
 8. **System Info**: `fastfetch` with custom loOS config
 
+## VM Preparation
+
+For VM-based deployments, use the `prepare.sh` script to download all packages
+without installing.
+
+### Local Usage (from cloned repo)
+
+```bash
+# On base VM/image:
+./prepare.sh    # Downloads packages to /var/cache/pacman/pkg/
+
+# Clone the VM, then on clone:
+./install.sh     # Uses cached packages (fast installation!)
+```
+
+### Remote Usage (via curl - no clone needed)
+
+```bash
+# On base VM/image - download packages without cloning:
+curl -sSL https://raw.githubusercontent.com/sangar/loos/master/prepare.sh | bash
+
+# Clone the VM, then on clone - clone repo and install:
+git clone https://github.com/sangar/loos.git
+cd loos
+./install.sh     # Uses cached packages (fast installation!)
+```
+
+The `prepare.sh` script:
+- Detects if run locally or remotely
+- Downloads package list from GitHub when run via curl
+- Uses `pacman -Sw` to download only, storing packages in `/var/cache/pacman/pkg/`
+- For installation, the full repo must be cloned (install.sh sources many local files)
+
 ## AUR / Source Builds
 
 Some packages are not in official Arch repositories and must be:

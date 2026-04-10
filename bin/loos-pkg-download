@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Download packages to pacman cache without installing
+# Usage: loos-pkg-download pkg1 pkg2 pkg3...
+
+# Refresh sudo credentials
+sudo -v 2>/dev/null || true
+
+echo "Downloading packages: $@"
+echo "(Stored in /var/cache/pacman/pkg/)"
+echo ""
+
+# Update mirrors first
+sudo pacman -Syy --noconfirm &>/dev/null || true
+
+# Download without installing (-Sw)
+if ! sudo pacman -Sw --noconfirm --overwrite '*' "$@" 2>&1; then
+  echo -e "\033[33mWarning: Some packages could not be downloaded\033[0m" >&2
+  echo "They may be AUR packages or not in repositories" >&2
+  exit 1
+fi
+
+echo "Downloaded to /var/cache/pacman/pkg/"
+exit 0
