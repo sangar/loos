@@ -4,6 +4,12 @@
 
 loOS is a bash-based Arch Linux installation and configuration framework for setting up Hyprland desktop environments. It automates package installation, system configuration, and desktop environment setup on Arch-based systems (primarily ARM).
 
+## Theming
+
+Themes can be found in the `themes` folder. Each theme has a `backgrounds` folder and a
+colors file named `colors.toml` which is used as the base colors for all configuration
+files related to setting colors.
+
 ## Build/Lint/Test Commands
 
 ### Linting
