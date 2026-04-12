@@ -1,11 +1,22 @@
+#!/bin/bash
+# Waybar configuration setup
+
 set -u
 
-WAYBAR_DIR="$HOME/.config/waybar"
+USER_HOME=$(getent passwd "$USER" | cut -d: -f6)
+WAYBAR_DIR="$USER_HOME/.config/waybar"
+
+echo "Setting up Waybar..."
+
+# Create waybar config directory
 mkdir -p "$WAYBAR_DIR"
 
-# Copy waybar configs from loos if they don't exist or if loos has newer versions
+# Copy base waybar config from loos
 if [ -d "$LOOS_PATH/config/waybar" ]; then
+  # Copy main config
   cp -f "$LOOS_PATH/config/waybar/config" "$WAYBAR_DIR/config" 2>/dev/null || true
+
+  # Copy default style (will be overridden by theme switcher)
   cp -f "$LOOS_PATH/config/waybar/style.css" "$WAYBAR_DIR/style.css" 2>/dev/null || true
 fi
 
@@ -23,6 +34,13 @@ rofi -show drun
 EOF
 
 chmod +x "$WAYBAR_DIR/launcher.sh"
-chown -R $USER:$USER "$WAYBAR_DIR"
+chown -R "$USER:$USER" "$WAYBAR_DIR"
 
-# If waybar is not showing, user can run: loos-waybar-debug
+echo "Waybar configured successfully!"
+echo ""
+echo "Modules enabled:"
+echo "  Left:  Workspaces, Window title"
+echo "  Center: Clock"
+echo "  Right: Audio, Network, Battery, System tray"
+echo ""
+echo "If waybar is not showing, run: loos-waybar-debug"
