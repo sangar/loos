@@ -5,6 +5,9 @@
 # For VM preparation (download packages without installing):
 #   Run: ./prepare.sh
 #
+# To uninstall loOS:
+#   Run: ./uninstall.sh
+#
 # This script will use cached packages from /var/cache/pacman/pkg/ if available
 
 set -eEo pipefail

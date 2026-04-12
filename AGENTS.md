@@ -213,6 +213,36 @@ Some packages are not in official Arch repositories and must be:
 
 Source builds are preferred for ARM compatibility.
 
+## Uninstall
+
+To remove loOS from your system, use the `uninstall.sh` script:
+
+```bash
+./uninstall.sh
+```
+
+### Uninstall Modes
+
+1. **Remove configs only** (SAFE) - Removes loOS configuration files but keeps all packages
+2. **Full uninstall** (DANGEROUS) - Removes configs AND tries to remove packages
+3. **Destructive** (DESTRUCTIVE) - Full cleanup including user data (nvim, mise, etc.)
+
+### What Gets Removed
+
+- loOS binaries (`~/.local/bin/loos-*`)
+- loOS installation (`~/.local/share/loos`)
+- loOS config state (`~/.config/loos`)
+- Application configs (hypr, waybar, rofi, foot, btop, etc.)
+- Systemd user units (xdg-desktop-portal, hyprpolkitagent)
+- Wallpapers and cache (`~/.local/share/loos`, `~/.cache/loos`)
+- .bashrc entries (loOS-specific lines)
+
+### What Stays (by default)
+
+- Installed packages (unless full uninstall mode)
+- User files in home directory
+- Git repositories and projects
+
 ## Testing Notes
 
 - No automated test suite currently exists
