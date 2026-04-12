@@ -167,6 +167,10 @@ source "$LOOS_INSTALL/config/git.sh"
 6. **Terminal**: `foot` is the default lightweight Wayland-native terminal (replaces alacritty for ARM/simple machines)
 7. **System Monitor**: `btop` with catppuccin-mocha theme
 8. **System Info**: `fastfetch` with custom loOS config
+9. **Theme Manager**: `loos-theme` - 5 themes (persisted to `~/.config/loos/current-theme`)
+10. **Wallpaper Manager**: `loos-wallpaper` - Rofi-based selector (persisted to `~/.config/loos/current-wallpaper`)
+11. **Background Manager**: `loos-background` - Terminal backgrounds (persisted to `~/.config/loos/background.conf`)
+12. **Auto-restore**: All theme/wallpaper/background settings restored on Hyprland login
 
 ## VM Preparation
 

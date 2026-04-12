@@ -1,0 +1,26 @@
+#!/bin/bash
+# loOS Theme Apply on Login
+# Reads the saved theme and applies it during Hyprland startup
+# This script is called from autostart.conf
+
+set -u
+
+LOOS_PATH="${LOOS_PATH:-${HOME}/.local/share/loos}"
+CURRENT_THEME_FILE="${HOME}/.config/loos/current-theme"
+
+# Check if theme file exists
+if [[ ! -f "$CURRENT_THEME_FILE" ]]; then
+    # No theme set yet, use default
+    echo "catppuccin-mocha" > "$CURRENT_THEME_FILE"
+fi
+
+# Read current theme
+current_theme=$(cat "$CURRENT_THEME_FILE")
+
+# Apply theme silently (no notifications during startup)
+if [[ -x "$LOOS_PATH/bin/loos-theme" ]]; then
+    # Apply theme but suppress output and notifications
+    "$LOOS_PATH/bin/loos-theme" apply "$current_theme" 2>/dev/null || true
+else
+    echo "Warning: loos-theme not found" >&2
+fi
