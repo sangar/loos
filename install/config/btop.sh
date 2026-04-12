@@ -16,11 +16,6 @@ if [[ -f "$LOOS_PATH/config/btop/btop.conf" ]]; then
   cp -f "$LOOS_PATH/config/btop/btop.conf" "$BTOP_DIR/btop.conf" 2>/dev/null || true
 fi
 
-# Copy theme
-if [[ -f "$LOOS_PATH/config/btop/themes/catppuccin-mocha.theme" ]]; then
-  cp -f "$LOOS_PATH/config/btop/themes/catppuccin-mocha.theme" "$BTOP_DIR/themes/catppuccin-mocha.theme" 2>/dev/null || true
-fi
-
 # Set proper ownership
 chown -R "$USER:$USER" "$BTOP_DIR" 2>/dev/null || true
 
