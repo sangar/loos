@@ -187,7 +187,7 @@ echo "Configuration location: $AGS_DIR"
 echo ""
 
 # Check if we're running in a graphical session
-if [[ -n "$WAYLAND_DISPLAY" ]] || [[ -n "$DISPLAY" ]]; then
+if [[ -n "${WAYLAND_DISPLAY:-}" ]] || [[ -n "${DISPLAY:-}" ]]; then
   echo -e "${BLUE}Note:${NC} AGS will start automatically on next Hyprland login."
 else
   echo -e "${BLUE}Note:${NC} AGS requires a graphical session to run."
