@@ -37,60 +37,51 @@ echo ""
 echo "This replaces Waybar for better fractional scaling support."
 echo ""
 
-# Check if paru or yay is available for AUR
-check_aur_helper() {
-  if command -v paru &>/dev/null; then
-    echo "paru"
-  elif command -v yay &>/dev/null; then
-    echo "yay"
-  else
-    echo ""
-  fi
-}
+# Check which AUR helper is available (paru is installed by preflight)
+AUR_HELPER=""
+if command -v paru &>/dev/null; then
+  AUR_HELPER="paru"
+elif command -v yay &>/dev/null; then
+  AUR_HELPER="yay"
+fi
 
-AUR_HELPER=$(check_aur_helper)
-
-# Function to install paru if no AUR helper exists
-install_paru() {
-  echo -e "${YELLOW}No AUR helper found. Installing paru...${NC}"
-  echo ""
+# Fallback: if no AUR helper, try to install paru one more time
+if [[ -z "$AUR_HELPER" ]]; then
+  echo -e "${YELLOW}AUR helper not found. Attempting to install paru...${NC}"
 
   # Check for required build dependencies
-  local build_deps=("base-devel" "git" "rust")
+  build_deps=("base-devel" "git")
   for dep in "${build_deps[@]}"; do
     if ! pacman -Q "$dep" &>/dev/null 2>&1; then
       echo "Installing build dependency: $dep"
-      sudo pacman -S --noconfirm --needed "$dep" || {
-        echo -e "${RED}Failed to install $dep${NC}"
-        return 1
-      }
+      sudo pacman -S --noconfirm --needed "$dep" || exit 1
     fi
   done
 
-  # Create temp directory for building
-  local temp_dir=$(mktemp -d)
+  # Install rust if not present
+  if ! command -v cargo &>/dev/null; then
+    echo "Installing rust..."
+    sudo pacman -S --noconfirm --needed rust || exit 1
+  fi
+
+  # Build paru
+  temp_dir=$(mktemp -d)
+  original_dir=$(pwd)
   cd "$temp_dir"
 
   echo "Cloning paru repository..."
-  git clone https://aur.archlinux.org/paru.git
+  git clone https://aur.archlinux.org/paru.git || exit 1
   cd paru
 
   echo "Building paru..."
-  makepkg -si --noconfirm
+  makepkg -si --noconfirm || exit 1
 
-  local result=$?
-  cd "$HOME"
+  cd "$original_dir"
   rm -rf "$temp_dir"
 
-  if [[ $result -eq 0 ]]; then
-    echo -e "${GREEN}paru installed successfully!${NC}"
-    AUR_HELPER="paru"
-    return 0
-  else
-    echo -e "${RED}Failed to install paru${NC}"
-    return 1
-  fi
-}
+  AUR_HELPER="paru"
+  echo -e "${GREEN}paru installed successfully!${NC}"
+fi
 
 # Install packages from AUR
 install_aur_package() {
@@ -101,15 +92,11 @@ install_aur_package() {
     return 0
   fi
 
-  if [[ -n "$AUR_HELPER" ]]; then
-    echo "Installing $pkg from AUR..."
-    $AUR_HELPER -S --noconfirm --needed "$pkg" || {
-      echo -e "${RED}Failed to install $pkg${NC}"
-      return 1
-    }
-  else
+  echo "Installing $pkg from AUR..."
+  $AUR_HELPER -S --noconfirm --needed "$pkg" || {
+    echo -e "${RED}Failed to install $pkg${NC}"
     return 1
-  fi
+  }
 }
 
 # Show required packages
@@ -119,11 +106,12 @@ for pkg in "${ASTAL_PACKAGES[@]}"; do
   echo "  Lib:  $pkg"
 done
 echo ""
+echo "Using AUR helper: $AUR_HELPER"
+echo ""
 
-# Try to install packages
+# Check which packages need to be installed
 MISSING_PACKAGES=()
 
-# Check which packages are missing
 if ! pacman -Q "$AGS_PACKAGE" &>/dev/null 2>&1; then
   MISSING_PACKAGES+=("$AGS_PACKAGE")
 fi
@@ -137,81 +125,16 @@ done
 if [[ ${#MISSING_PACKAGES[@]} -eq 0 ]]; then
   echo -e "${GREEN}All AGS packages are already installed!${NC}"
 else
-  echo -e "${YELLOW}Missing packages: ${#MISSING_PACKAGES[@]}${NC}"
+  echo "Missing packages: ${#MISSING_PACKAGES[@]}"
   echo ""
-
-  if [[ -z "$AUR_HELPER" ]]; then
-    echo -e "${YELLOW}No AUR helper found (paru/yay).${NC}"
-    echo ""
-    echo "Would you like to:"
-    echo "  1) Install paru (AUR helper) automatically"
-    echo "  2) Show manual installation instructions"
-    echo "  3) Skip AGS installation"
-    echo ""
-    read -rp "Enter choice [1-3]: " choice
-
-    case $choice in
-    1)
-      if ! install_paru; then
-        echo -e "${RED}Failed to install paru. Please install manually.${NC}"
-        echo ""
-        echo "Manual installation instructions:"
-        echo "  git clone https://aur.archlinux.org/paru.git"
-        echo "  cd paru && makepkg -si"
-        echo ""
-        exit 1
-      fi
-      ;;
-    2)
-      echo ""
-      echo "==========================================="
-      echo "MANUAL INSTALLATION INSTRUCTIONS"
-      echo "==========================================="
-      echo ""
-      echo "Option 1: Install an AUR helper first:"
-      echo "  # Install paru (recommended):"
-      echo "  sudo pacman -S --needed base-devel rust"
-      echo "  git clone https://aur.archlinux.org/paru.git"
-      echo "  cd paru && makepkg -si"
-      echo ""
-      echo "  # Or install yay:"
-      echo "  sudo pacman -S --needed base-devel git"
-      echo "  git clone https://aur.archlinux.org/yay.git"
-      echo "  cd yay && makepkg -si"
-      echo ""
-      echo "Option 2: Install AGS packages manually:"
-      echo "  # Download and build each package:"
-      for pkg in "$AGS_PACKAGE" "${ASTAL_PACKAGES[@]}"; do
-        echo "  git clone https://aur.archlinux.org/$pkg.git"
-        echo "  cd $pkg && makepkg -si"
-        echo "  cd .."
-      done
-      echo ""
-      echo "Then re-run this script."
-      echo ""
-      exit 0
-      ;;
-    3)
-      echo "Skipping AGS installation."
-      echo "Note: loOS will not have a status bar until AGS is installed."
-      exit 0
-      ;;
-    *)
-      echo "Invalid choice. Skipping AGS installation."
-      exit 0
-      ;;
-    esac
-  fi
-
-  # Install all missing packages
-  echo ""
-  echo "Installing missing packages..."
+  echo "Installing packages automatically..."
   echo ""
 
   for pkg in "${MISSING_PACKAGES[@]}"; do
     install_aur_package "$pkg" || {
-      echo -e "${RED}Failed to install $pkg${NC}"
-      echo "You may need to install it manually."
+      echo -e "${RED}Error: Failed to install $pkg${NC}"
+      echo "Installation aborted."
+      exit 1
     }
   done
 fi
