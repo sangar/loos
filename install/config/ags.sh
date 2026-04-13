@@ -74,7 +74,17 @@ if [[ -z "$AUR_HELPER" ]]; then
   cd yay
 
   echo "Building yay..."
-  makepkg -si --noconfirm || exit 1
+  makepkg -s --noconfirm || exit 1
+
+  # Install the built package
+  echo "Installing built yay package..."
+  pkg_file=$(ls yay-*.pkg.tar.zst 2>/dev/null | head -1)
+  if [[ -n "$pkg_file" ]]; then
+    sudo pacman -U --noconfirm "$pkg_file" || exit 1
+  else
+    echo "Could not find built package file"
+    exit 1
+  fi
 
   cd "$original_dir"
   rm -rf "$temp_dir"

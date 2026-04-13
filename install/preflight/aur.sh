@@ -21,9 +21,21 @@ check_aur_helper() {
 
 AUR_HELPER=$(check_aur_helper)
 
+# Ensure sudo is available and credentials are fresh
+ensure_sudo() {
+  # Check if we can run sudo without password (or with cached credentials)
+  if ! sudo -n true 2>/dev/null; then
+    echo "Refreshing sudo credentials..."
+    sudo -v
+  fi
+}
+
 # Install yay automatically if no AUR helper exists
 install_yay() {
   echo -e "${YELLOW}Installing yay AUR helper...${NC}"
+
+  # Ensure sudo is ready
+  ensure_sudo
 
   # Check for required build dependencies
   local build_deps=("base-devel" "git")
@@ -40,6 +52,7 @@ install_yay() {
   # Install go if not present (required for yay)
   if ! command -v go &>/dev/null; then
     echo "Installing go (required for yay)..."
+    ensure_sudo
     sudo pacman -S --noconfirm --needed go || {
       echo -e "${RED}Failed to install go${NC}"
       exit 1
@@ -62,12 +75,31 @@ install_yay() {
   cd yay
 
   echo "Building yay (this should be quick)..."
-  makepkg -si --noconfirm || {
+  # Build without installing first (avoids sudo timeout during build)
+  makepkg -s --noconfirm || {
     echo -e "${RED}Failed to build yay${NC}"
     cd "$original_dir"
     rm -rf "$temp_dir"
     exit 1
   }
+
+  # Now install the built package with explicit sudo
+  echo "Installing built yay package..."
+  ensure_sudo
+  local pkg_file=$(ls yay-*.pkg.tar.zst 2>/dev/null | head -1)
+  if [[ -n "$pkg_file" ]]; then
+    sudo pacman -U --noconfirm "$pkg_file" || {
+      echo -e "${RED}Failed to install yay package${NC}"
+      cd "$original_dir"
+      rm -rf "$temp_dir"
+      exit 1
+    }
+  else
+    echo -e "${RED}Could not find built package file${NC}"
+    cd "$original_dir"
+    rm -rf "$temp_dir"
+    exit 1
+  fi
 
   cd "$original_dir"
   rm -rf "$temp_dir"
