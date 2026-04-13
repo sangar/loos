@@ -37,17 +37,17 @@ echo ""
 echo "This replaces Waybar for better fractional scaling support."
 echo ""
 
-# Check which AUR helper is available (paru is installed by preflight)
+# Check which AUR helper is available (yay is installed by preflight, prefers yay over paru for speed)
 AUR_HELPER=""
-if command -v paru &>/dev/null; then
-  AUR_HELPER="paru"
-elif command -v yay &>/dev/null; then
+if command -v yay &>/dev/null; then
   AUR_HELPER="yay"
+elif command -v paru &>/dev/null; then
+  AUR_HELPER="paru"
 fi
 
-# Fallback: if no AUR helper, try to install paru one more time
+# Fallback: if no AUR helper, try to install yay one more time (yay is faster than paru)
 if [[ -z "$AUR_HELPER" ]]; then
-  echo -e "${YELLOW}AUR helper not found. Attempting to install paru...${NC}"
+  echo -e "${YELLOW}AUR helper not found. Attempting to install yay...${NC}"
 
   # Check for required build dependencies
   build_deps=("base-devel" "git")
@@ -58,29 +58,29 @@ if [[ -z "$AUR_HELPER" ]]; then
     fi
   done
 
-  # Install rust if not present
-  if ! command -v cargo &>/dev/null; then
-    echo "Installing rust..."
-    sudo pacman -S --noconfirm --needed rust || exit 1
+  # Install go if not present
+  if ! command -v go &>/dev/null; then
+    echo "Installing go..."
+    sudo pacman -S --noconfirm --needed go || exit 1
   fi
 
-  # Build paru
+  # Build yay
   temp_dir=$(mktemp -d)
   original_dir=$(pwd)
   cd "$temp_dir"
 
-  echo "Cloning paru repository..."
-  git clone https://aur.archlinux.org/paru.git || exit 1
-  cd paru
+  echo "Cloning yay repository..."
+  git clone https://aur.archlinux.org/yay.git || exit 1
+  cd yay
 
-  echo "Building paru..."
+  echo "Building yay..."
   makepkg -si --noconfirm || exit 1
 
   cd "$original_dir"
   rm -rf "$temp_dir"
 
-  AUR_HELPER="paru"
-  echo -e "${GREEN}paru installed successfully!${NC}"
+  AUR_HELPER="yay"
+  echo -e "${GREEN}yay installed successfully!${NC}"
 fi
 
 # Install packages from AUR
