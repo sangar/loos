@@ -1,3 +1,5 @@
+# Core packages
+
 adwaita-icon-theme
 foot
 brightnessctl
@@ -31,9 +33,9 @@ thunar
 ttf-jetbrains-mono-nerd
 uwsm
 rofi-wayland
+waybar
 wireplumber
 wl-clipboard
 libqalculate
 xdg-desktop-portal
 xdg-desktop-portal-hyprland
-

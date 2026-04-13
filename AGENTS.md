@@ -111,8 +111,6 @@ Modes: configs-only, full (configs+packages), destructive (+user data)
 
 ## Dependencies
 
-Core: hyprland, foot, waybar (GTK4 build), rofi-wayland, uwsm, sddm, dunst, btop, fastfetch, mise
-
-**Note:** Waybar is built from source with GTK4 for fractional scaling support.
+Core: hyprland, foot, waybar, rofi-wayland, uwsm, sddm, dunst, btop, fastfetch, mise
 
 See `FEATURES.md` for full feature checklist and omarchy comparison.
