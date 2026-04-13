@@ -76,7 +76,7 @@ else
         ttf-jetbrains-mono-nerd
         uwsm
         rofi-wayland
-        # waybar - replaced by AGS
+        waybar
         wireplumber
         wl-clipboard
         xdg-desktop-portal
@@ -173,7 +173,7 @@ safe_remove "$LOOS_CONFIG"
 # Remove application configs installed by loOS
 echo -e "${BLUE}Removing application configs...${NC}"
 safe_remove "$USER_CONFIG/hypr"  # Hyprland configs
-safe_remove "$USER_CONFIG/ags"   # AGS status bar
+safe_remove "$USER_CONFIG/waybar"
 safe_remove "$USER_CONFIG/rofi"
 safe_remove "$USER_CONFIG/foot"
 safe_remove "$USER_CONFIG/btop"

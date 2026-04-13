@@ -58,7 +58,7 @@ curl -sSL https://raw.githubusercontent.com/sangar/loos/master/boot.sh | bash
 - `colors.toml` - 16-color palette + accent/foreground/background
 - `vscode.json` - VS Code color overrides
 - `neovim.lua` - Neovim colorscheme reference
-- `ags.css` - AGS (status bar) color variables
+- `waybar.css` - Waybar color variables
 - `btop.theme` - Btop color theme
 - `hyprland.conf` - Hyprland-specific colors
 - `backgrounds/` - Wallpaper images
@@ -66,7 +66,7 @@ curl -sSL https://raw.githubusercontent.com/sangar/loos/master/boot.sh | bash
 
 **Applying themes:** Themes are applied by scripts that:
 1. Read `colors.toml`
-2. Generate app-specific configs (ags CSS, btop theme, etc.)
+2. Generate app-specific configs (waybar CSS, btop theme, etc.)
 3. Copy to `~/.config/`
 4. Reload running apps
 
@@ -82,7 +82,7 @@ curl -sSL https://raw.githubusercontent.com/sangar/loos/master/boot.sh | bash
 **To test install scripts:**
 ```bash
 # Run specific config module
-LOOS_PATH="$PWD" LOOS_INSTALL="$PWD/install" bash install/config/ags.sh
+LOOS_PATH="$PWD" LOOS_INSTALL="$PWD/install" bash install/config/waybar.sh
 ```
 
 ## Key Files
@@ -111,8 +111,8 @@ Modes: configs-only, full (configs+packages), destructive (+user data)
 
 ## Dependencies
 
-Core: hyprland, foot, ags (Aylur's GTK Shell), rofi-wayland, uwsm, sddm, dunst, btop, fastfetch, mise
+Core: hyprland, foot, waybar (GTK4 build), rofi-wayland, uwsm, sddm, dunst, btop, fastfetch, mise
 
-**Note:** AGS v3 replaced Waybar for native GTK4 fractional scaling support on Wayland.
+**Note:** Waybar is built from source with GTK4 for fractional scaling support.
 
 See `FEATURES.md` for full feature checklist and omarchy comparison.

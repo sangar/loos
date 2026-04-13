@@ -1,17 +1,3 @@
-# Core packages
-
-# Note: waybar has been replaced by AGS (Aylur's GTK Shell) v3
-# AGS provides GTK4-native fractional scaling support
-# Install these from AUR during installation:
-#   - aylurs-gtk-shell
-#   - libastal-4-git
-#   - libastal-hyprland-git
-#   - libastal-wireplumber-git
-#   - libastal-network-git
-#   - libastal-battery-git
-#   - libastal-tray-git
-#   - libastal-gjs-git
-
 adwaita-icon-theme
 foot
 brightnessctl
@@ -45,9 +31,9 @@ thunar
 ttf-jetbrains-mono-nerd
 uwsm
 rofi-wayland
-# waybar - replaced by AGS for fractional scaling support
 wireplumber
 wl-clipboard
 libqalculate
 xdg-desktop-portal
 xdg-desktop-portal-hyprland
+
