@@ -1,41 +1,69 @@
-# Core packages
+# Core packages for loOS
+# These packages are installed from official Arch repositories
+# Comments and empty lines are automatically filtered during installation
 
-adwaita-icon-theme
+# Desktop Environment
+hyprland
+hyprpaper
+uwsm
+waybar
+
+# Display & Login
+sddm
+seatd
+
+# Terminal & Shell
 foot
+mise
+less
+
+# File Management
+thunar
+gvfs
+
+# Appearance & Theming
+gtk3
+gtk4
+adwaita-icon-theme
+lxappearance
+qt5-wayland
+
+# Audio & Media
+pipewire
+wireplumber
+playerctl
+
+# System & Hardware
+mesa
+polkit
+hyprpolkitagent
 brightnessctl
+network-manager-applet
+libdisplay-info
+
+# Utilities
 btop
 dunst
 fastfetch
 grim
-gvfs
-gtk3
-gtk4
-hyprland
-hyprpaper
-hyprpolkitagent
-less
-libdisplay-info
-libqalculate
-lxappearance
-mesa
-mise
-network-manager-applet
-noto-fonts-emoji
-nvim
-pipewire
-playerctl
-polkit
-qt5-wayland
-seatd
 slurp
-sddm
-thunar
-ttf-jetbrains-mono-nerd
-uwsm
-rofi-wayland
-waybar
-wireplumber
 wl-clipboard
-libqalculate
+
+# Fonts
+ttf-jetbrains-mono-nerd
+noto-fonts-emoji
+
+# Development
+nvim
+git
+
+# Wayland Support
 xdg-desktop-portal
 xdg-desktop-portal-hyprland
+
+# Tools
+libqalculate
+
+# Note: waybar is installed from pacman (GTK3 version)
+# For GTK4 fractional scaling, build from source with:
+#   meson setup build -Dgtkmm-4-0=enabled
