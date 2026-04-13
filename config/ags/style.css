@@ -1,0 +1,204 @@
+/* AGS v3 Bar Styles - GTK4 Compatible */
+/* Based on Waybar configuration with fractional scaling support */
+
+* {
+    all: unset;
+    font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", monospace;
+    font-size: 13px;
+    min-height: 0;
+}
+
+.bar {
+    background-color: rgba(30, 30, 46, 0.9);
+    color: #cdd6f4;
+}
+
+.bar > * {
+    padding: 0 6px;
+}
+
+/* Left section */
+.left {
+    margin-left: 6px;
+}
+
+/* Workspaces */
+.workspaces {
+    margin: 0 6px;
+}
+
+.workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #cdd6f4;
+    border-radius: 4px;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.workspaces button:hover {
+    background-color: rgba(137, 180, 250, 0.2);
+}
+
+.workspaces button.active {
+    background-color: #89b4fa;
+    color: #1e1e2e;
+}
+
+.workspaces button.urgent {
+    background-color: #f38ba8;
+    color: #1e1e2e;
+}
+
+.workspaces button.occupied {
+    color: #cdd6f4;
+}
+
+/* Window title */
+.window-title {
+    background-color: rgba(30, 30, 46, 0.8);
+    color: #cdd6f4;
+    margin-left: 12px;
+    margin-right: 6px;
+    padding: 0 6px;
+    border-radius: 4px;
+}
+
+/* Center section */
+.center {
+    margin: 0 8px;
+}
+
+/* Clock */
+.clock {
+    background-color: rgba(137, 180, 250, 0.3);
+    color: #89b4fa;
+    font-weight: bold;
+    padding: 0 12px;
+    border-radius: 4px;
+    min-height: 24px;
+}
+
+.clock:hover {
+    background-color: rgba(137, 180, 250, 0.5);
+}
+
+/* Right section */
+.right {
+    margin-right: 6px;
+}
+
+/* Audio */
+.audio {
+    margin: 0 8px;
+    padding: 0 6px;
+    border-radius: 4px;
+    min-height: 24px;
+}
+
+.audio:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.audio.muted {
+    background-color: rgba(30, 30, 46, 0.5);
+    color: #6c7086;
+}
+
+/* Network */
+.network {
+    margin: 0 8px;
+    padding: 0 6px;
+    border-radius: 4px;
+    min-height: 24px;
+}
+
+.network:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.network.disconnected {
+    background-color: rgba(243, 139, 168, 0.3);
+    color: #f38ba8;
+}
+
+/* Battery */
+.battery {
+    margin: 0 8px;
+    padding: 0 6px;
+    border-radius: 4px;
+    min-height: 24px;
+}
+
+.battery:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.battery.good {
+    background-color: rgba(166, 227, 161, 0.3);
+    color: #a6e3a1;
+}
+
+.battery.warning {
+    background-color: rgba(249, 226, 175, 0.3);
+    color: #f9e2af;
+}
+
+.battery.critical {
+    background-color: rgba(243, 139, 168, 0.3);
+    color: #f38ba8;
+}
+
+.battery.charging {
+    background-color: rgba(166, 227, 161, 0.3);
+    color: #a6e3a1;
+}
+
+/* System Tray */
+.tray {
+    background-color: rgba(30, 30, 46, 0.8);
+    margin: 0 8px;
+    padding: 0 6px;
+    border-radius: 4px;
+    spacing: 10px;
+}
+
+.tray-item {
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+.tray-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tooltip */
+tooltip {
+    background: rgba(30, 30, 46, 0.95);
+    color: #cdd6f4;
+    border-radius: 4px;
+    padding: 8px;
+    border: 1px solid rgba(137, 180, 250, 0.3);
+}
+
+tooltip label {
+    color: #cdd6f4;
+}
+
+/* Menu */
+menu {
+    background: rgba(30, 30, 46, 0.95);
+    color: #cdd6f4;
+    border-radius: 4px;
+    padding: 8px;
+    border: 1px solid rgba(137, 180, 250, 0.3);
+}
+
+menuitem {
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+menuitem:hover {
+    background-color: rgba(137, 180, 250, 0.3);
+}

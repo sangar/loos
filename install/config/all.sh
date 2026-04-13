@@ -4,7 +4,8 @@ source $LOOS_INSTALL/config/foot.sh
 source $LOOS_INSTALL/config/git.sh
 source $LOOS_INSTALL/config/mise.sh
 #source $LOOS_INSTALL/config/lcsnd.sh
-source $LOOS_INSTALL/config/waybar.sh
+source $LOOS_INSTALL/config/ags.sh
+#source $LOOS_INSTALL/config/waybar.sh
 source $LOOS_INSTALL/config/rofi.sh
 source $LOOS_INSTALL/config/btop.sh
 source $LOOS_INSTALL/config/fastfetch.sh

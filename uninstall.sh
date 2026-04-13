@@ -76,7 +76,7 @@ else
         ttf-jetbrains-mono-nerd
         uwsm
         rofi-wayland
-        waybar
+        # waybar - replaced by AGS
         wireplumber
         wl-clipboard
         xdg-desktop-portal
@@ -158,7 +158,7 @@ safe_remove "$USER_CONFIG/systemd/user/hyprpolkitagent.service"
 
 # Remove loOS binary symlinks
 echo -e "${BLUE}Removing loOS binaries...${NC}"
-for binary in loos-pkg-add loos-pkg-missing loos-pkg-download loos-theme loos-wallpaper loos-background loos-theme-apply-on-login loos-keyboard-sync loos-refresh-hypr loos-refresh-sddm loos-waybar-debug loos-npx-install; do
+for binary in loos-pkg-add loos-pkg-missing loos-pkg-download loos-theme loos-wallpaper loos-background loos-theme-apply-on-login loos-keyboard-sync loos-refresh-hypr loos-refresh-sddm loos-npx-install; do
     safe_remove "$LOOS_BIN/$binary"
 done
 
@@ -173,7 +173,7 @@ safe_remove "$LOOS_CONFIG"
 # Remove application configs installed by loOS
 echo -e "${BLUE}Removing application configs...${NC}"
 safe_remove "$USER_CONFIG/hypr"  # Hyprland configs
-safe_remove "$USER_CONFIG/waybar"
+safe_remove "$USER_CONFIG/ags"   # AGS status bar
 safe_remove "$USER_CONFIG/rofi"
 safe_remove "$USER_CONFIG/foot"
 safe_remove "$USER_CONFIG/btop"
